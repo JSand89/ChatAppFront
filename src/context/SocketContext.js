@@ -6,6 +6,7 @@ import { useSocket } from '../hooks/useSocket'
 import { ChatContext } from './chat/ChatContext';
 
 import { types } from '../types/types';
+import { scrollToBottomAnimated } from '../helpers/scrollToBottom';
 
 
 export const SocketContext = createContext();
@@ -13,7 +14,7 @@ export const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
 
-    const { socket, online, connectSocket, desConnectSocket } = useSocket('http://localhost:8080');
+    const { socket, online, connectSocket, desConnectSocket } = useSocket("http://localhost:8080/api");
 
     const {auth} = useContext(AuthContext);
     const {dispatch} =useContext( ChatContext);
@@ -46,10 +47,30 @@ export const SocketProvider = ({ children }) => {
     useEffect(()=>{
 
         socket?.on('list-tickets', (tickets)=>{
-        console.log(tickets)       
+       // console.log(tickets)       
         })
 
     },[socket]);
+
+    useEffect(()=>{
+        socket?.on('mensaje-personal', (message) =>{
+            dispatch({
+                type: types.newMessage,
+                payload: message
+            });
+
+            scrollToBottomAnimated('messages')
+
+        })
+    },[socket,dispatch])
+
+    useEffect(()=>{
+
+        socket?.on('message-grupo', (MG)=>{
+        console.log(MG)       
+        })
+
+    },[socket]);   
     
     return (
         <SocketContext.Provider value={{ socket, online }}>

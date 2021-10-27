@@ -10,7 +10,7 @@ export const Sidebar = () => {
     const {auth} = useContext(AuthContext)
     const {uid} = auth;
 
-    console.log(chatState)
+    //console.log(chatState)
 
     return (
         <div className="inbox_chat">

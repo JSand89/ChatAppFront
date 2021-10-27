@@ -1,4 +1,4 @@
-const baseUrl =process.env.REACT_APP_API_URL;
+const baseUrl ="http://localhost:8080/api";
 
 export const fetcSinToken = async (endpoint,data,method = 'GET')=>{
 

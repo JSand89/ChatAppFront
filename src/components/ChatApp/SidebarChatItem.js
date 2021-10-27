@@ -1,5 +1,7 @@
-import React, { useContext, useReducer } from 'react'
+import React, { useContext} from 'react'
 import { ChatContext } from '../../context/chat/ChatContext'
+import { fetcConToken } from '../../helpers/fetch'
+import { scrollToBottom } from '../../helpers/scrollToBottom'
 import { types } from '../../types/types'
 
 export const SidebarChatItem = ({user}) => {
@@ -7,11 +9,24 @@ export const SidebarChatItem = ({user}) => {
     const { dispatch, chatState} = useContext(ChatContext)
     const {chatActive}=chatState
 
-    const onClick =()=>{
+    const onClick = async () =>{
         dispatch({
             type: types.activeChat,
             payload:user.uid
         })
+
+        //load chats
+        console.log(user) 
+
+        const resp = await fetcConToken(`mensajes/${user.uid}`);
+       // console.log(resp.mensajes)
+
+        dispatch({
+            type: types.loadChat,
+            payload: resp.mensajes
+        })
+        scrollToBottom('messages')
+
     }
 
     return (

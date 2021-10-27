@@ -69,7 +69,7 @@ export const LoginPages = () => {
         onSubmit={onSubmit}
         >
         <span className="login100-form-title mb-3">
-            Chat - Ingreso
+            Chat - Ingreso - Intopcol
         </span>
         
         <div className="wrap-input100 validate-input mb-3">

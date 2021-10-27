@@ -1,8 +1,15 @@
-import React,{useState} from 'react'
+import React,{useContext, useState} from 'react'
+import { AuthContext } from '../../auth/AuthContex';
+import { ChatContext } from '../../context/chat/ChatContext';
+import { SocketContext } from '../../context/SocketContext';
 
 export const SendMessage = () => {
 
     const [message, setMessage] = useState('');
+
+    const {socket} = useContext( SocketContext)
+    const {auth} = useContext(AuthContext)
+    const {chatState} = useContext(ChatContext)
 
     const onChange = ({ target })=>{
         setMessage(target.value);
@@ -18,7 +25,11 @@ export const SendMessage = () => {
         console.log(message);
         setMessage('');
         //todo emiitir el soket para enviar
-        
+        socket.emit('message-personal',{
+            de: auth.uid,
+            to:chatState.chatActive,
+            message
+        })
 
     }
 
